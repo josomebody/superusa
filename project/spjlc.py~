@@ -1,0 +1,41 @@
+import pickle
+
+class proto():
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+
+def main():
+	world = []
+	f = open("gimp/spjground.pbm", 'r')
+	f.readline()
+	f.readline()
+	s = f.read(1)
+	buffer = ''
+	while s <>' ':
+		buffer += s
+		s = f.read(1)
+	xmax = int(buffer)
+	buffer = ''
+	s = f.read(1)
+	while s <>'\n':
+		buffer += s
+		s = f.read(1)
+	ymax = int(buffer)
+	print xmax, ymax
+	x = 0
+	y = 0
+	s = f.read(1)
+	for y in range(ymax):
+		for x in range(xmax):
+			if s == '1':
+				newobst = proto(x*64,y*64)
+				world.append(newobst)
+			s = f.read(1)
+	f.close()
+	f = open("spjground.lev", 'w')
+	pickle.dump(world, f)
+
+main()
+
+
